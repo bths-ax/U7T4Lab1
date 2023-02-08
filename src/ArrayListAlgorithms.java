@@ -275,25 +275,31 @@ public class ArrayListAlgorithms
 	 */
 	public static ArrayList<Integer> modes(int[] numList) {
 		ArrayList<Integer> modes = new ArrayList<Integer>();
+		ArrayList<Integer> numListUnq = new ArrayList<Integer>();
+		for (int n : numList) numListUnq.add(n);
+		removeDuplicates(numListUnq);
 		int maxCnt = 0;
 		for (int n : numList) {
 			int cnt = 0;
 			for (int m : numList)
-				if (n == m) cnt++;
+				if (m == n) cnt++;
 			maxCnt = Math.max(maxCnt, cnt);
 		}
 		for (int n : numList) {
 			int cnt = 0;
 			for (int m : numList)
-				if (n == m) cnt++;
-			boolean exists = false;
-			for (int mode : modes)
-				if (mode == n)
-					exists = true;
-			if (cnt == maxCnt && !exists) {
-				modes.add(n);
+				if (m == n) cnt++;
+			if (cnt == maxCnt) {
+				boolean exists = false;
+				for (int mode : modes)
+					if (mode == n) exists = true;
+				if (!exists) {
+					modes.add(n);
+				}
 			}
 		}
+		if (modes.size() == numListUnq.size())
+			modes.clear();
 		return modes;
 	}
 }
